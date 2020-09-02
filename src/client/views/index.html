@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <link rel="shortcut icon" href="#" />
+        <meta charset="utf-8">
+        <title>NLP Text analysis</title>
+        <link
+      href="https://fonts.googleapis.com/css?family=Alata|Open Sans:300&display=swap"
+      rel="stylesheet"
+    />
+    </head>
+
+    <body>
+
+        <header>
+            <div class="">
+                NLP text validation
+            </div>
+            <div class="">
+                main
+            </div>
+        </header>
+
+        <main>
+            <section>
+                <strong><h1>Where and when do you plan your next holiday?</h1></strong>
+                <form class="form">
+                    <input id="name" type="text" value="" placeholder="Type your location here...">
+                    <input type="date" id="date">
+                    <input type="submit" value="submit" id="submit">
+                </form>
+            <section>
+
+            <section>
+                <strong><h2>Text analysis results:</h2></strong>
+                <div id="results" style="overflow-x:auto;">
+                    <table>
+                        <tr>
+                          <th>Criteria</th>
+                          <th>Result</th>
+                        </tr>
+                        <tr>
+                          <td>Is this text objective or subjective?</td>
+                          <td id='subjectivity'></td>
+                        </tr>
+                        <tr>
+                          <td>How confident is the analysis?</td>
+                          <td id='confidence'></td>
+                        </tr>
+                        <tr>
+                            <td>Is this text ironic?</td>
+                            <td id='irony'></td>
+                          </tr>
+                      </table> 
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>This is a footer</p>
+        </footer>
+
+        <script>
+            // Check that service workers are supported
+            if ('serviceWorker' in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js');
+                });
+            }
+           </script>
+
+    </body>
+</html>
