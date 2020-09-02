@@ -31,6 +31,7 @@ async function getWeather(date, location) {
     weatherResponse = weatherResponse["data"][0];
   } else {
     weatherResponse = await getWeatherData("forecast/daily", lat, lon);
+
     if (datesDiff <= 16) {
       weatherResponse = weatherResponse["data"][datesDiff - 1];
     } else {
