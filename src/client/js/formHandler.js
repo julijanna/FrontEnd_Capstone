@@ -9,40 +9,63 @@ async function handleSubmit(event) {
   event.preventDefault();
 
   // check what text was put into the form field
-  let formText = document.getElementById("name").value;
-  let dateInput = new Date(document.getElementById("date").value);
-  getWeather(dateInput, formText);
-  const imageResponse = await getImage(formText);
-  console.log(imageResponse["hits"][0]["webformatURL"]);
-}
-
-async function getWeather(date, location) {
   const todaysDate = new Date();
   const datesDiff = Math.ceil((date - todaysDate) / (1000 * 3600 * 24));
-  const sentimentResponse = await getGeoName(location);
-  let lat = sentimentResponse["geonames"][0]["lat"];
-  let lon = sentimentResponse["geonames"][0]["lng"];
-  let weatherResponse = {};
+  let formText = document.getElementById("name").value;
+  let dateInput = new Date(document.getElementById("date").value);
+  const coordinates = await getGeoData(formText);
 
-  // console.log(sentimentResponse["geonames"][0]);
+  console.log(coordinates);
+
+  const weatherPromise = getWeather(
+    dateInput,
+    todaysDate,
+    coordinates.lat,
+    coordinates.lon
+  );
+  const imageResponsePromise = getImage(formText);
+  // console.log(imageResponse["hits"][0]["webformatURL"]);
+
+  Promise.all([imageResponsePromise, weatherPromise]).then((values) => {
+    console.log(values[0]);
+  });
+}
+
+async function getGeoData(location) {
+  const sentimentResponse = await getGeoName(location);
+
+  return {
+    lat: sentimentResponse["geonames"][0]["lat"],
+    lon: sentimentResponse["geonames"][0]["lng"],
+  };
+}
+
+function getWeather(date, todaysDate, lat, lon) {
+  // let weatherResponse = {};
+  let responseType = "forecast/daily";
 
   if (date.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
-    weatherResponse = await getWeatherData("current", lat, lon);
-    weatherResponse = weatherResponse["data"][0];
-  } else {
-    weatherResponse = await getWeatherData("forecast/daily", lat, lon);
+    responseType = "current";
+  }
+  // weatherResponse = weatherResponse["data"][0];
 
-    if (datesDiff <= 16) {
-      weatherResponse = weatherResponse["data"][datesDiff - 1];
-    } else {
-      weatherResponse = weatherResponse["data"][15];
-    }
+  console.log(lat, lon);
+
+  return getWeatherData(responseType, lat, lon);
+}
+
+function processWeatherData(data, datesDiff) {
+  let weatherResponse = {};
+  if (datesDiff <= 16) {
+    weatherResponse = data["data"][datesDiff - 1];
+  } else {
+    weatherResponse = data["data"][15];
   }
 
-  let temperature = weatherResponse["temp"];
-  let description = weatherResponse["weather"]["description"];
+  let temperature = data["temp"];
+  let description = data["weather"]["description"];
 
-  return temperature, description, datesDiff;
+  return temperature, description;
 }
 
 /**
