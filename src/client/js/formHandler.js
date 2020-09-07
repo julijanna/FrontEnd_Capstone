@@ -9,10 +9,10 @@ async function handleSubmit(event) {
   event.preventDefault();
 
   // check what text was put into the form field
-  const todaysDate = new Date();
-  const datesDiff = Math.ceil((date - todaysDate) / (1000 * 3600 * 24));
   let formText = document.getElementById("name").value;
   let dateInput = new Date(document.getElementById("date").value);
+  const todaysDate = new Date();
+  const datesDiff = Math.ceil((dateInput - todaysDate) / (1000 * 3600 * 24));
   const coordinates = await getGeoData(formText);
 
   console.log(coordinates);
@@ -26,9 +26,22 @@ async function handleSubmit(event) {
   const imageResponsePromise = getImage(formText);
   // console.log(imageResponse["hits"][0]["webformatURL"]);
 
-  Promise.all([imageResponsePromise, weatherPromise]).then((values) => {
-    console.log(values[0]);
+  let responseObject = await Promise.all([
+    imageResponsePromise,
+    weatherPromise,
+  ]).then(function (values) {
+    return {
+      image: values[0]["hits"][0]["webformatURL"],
+      weather: values[1],
+    };
   });
+
+  responseObject["weather"] = processWeatherData(
+    responseObject["weather"],
+    datesDiff
+  );
+
+  updateUI(responseObject);
 }
 
 async function getGeoData(location) {
@@ -56,16 +69,29 @@ function getWeather(date, todaysDate, lat, lon) {
 
 function processWeatherData(data, datesDiff) {
   let weatherResponse = {};
-  if (datesDiff <= 16) {
+  console.log(datesDiff);
+  if (datesDiff == 0) {
+    weatherResponse = data["data"][0];
+  } else if (datesDiff <= 16) {
     weatherResponse = data["data"][datesDiff - 1];
   } else {
     weatherResponse = data["data"][15];
   }
 
-  let temperature = data["temp"];
-  let description = data["weather"]["description"];
+  let temperature = weatherResponse["temp"] + "\xB0";
+  let description = weatherResponse["weather"]["description"];
 
-  return temperature, description;
+  return { temperature: temperature, description: description };
+}
+
+function updateUI(dataObject) {
+  let temp = document.getElementById("temperature");
+  let weather = document.getElementById("weather");
+  let picture = document.getElementById("picture");
+
+  temp.innerText = dataObject["weather"]["temperature"];
+  weather.innerText = dataObject["weather"]["description"];
+  picture.style.backgroundImage = `url(${dataObject["image"]})`;
 }
 
 /**

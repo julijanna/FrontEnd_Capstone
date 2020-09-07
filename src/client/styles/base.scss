@@ -42,6 +42,11 @@ body {
           }
         }
       }
+
+      #picture {
+        min-height: 400px;
+        background-repeat: no-repeat;
+      }
     }
   }
 }
