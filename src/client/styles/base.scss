@@ -20,27 +20,35 @@ body {
       max-width: 800px;
       margin: 50px auto;
 
+      #results_section {
+        display: none;
+      }
+
       #results {
-        margin-top: 20px;
         width: 100%;
+      }
 
-        table {
-          width: 100%;
-          table-layout: fixed;
+      table {
+        margin-top: 15px;
+        width: 100%;
+        table-layout: fixed;
 
-          th {
-            height: 30px;
-            text-align: left;
-            font-weight: bold;
-          }
-
-          th,
-          td {
-            padding: 5px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-          }
+        th {
+          height: 30px;
+          text-align: left;
+          font-weight: bold;
         }
+
+        th,
+        td {
+          padding: 5px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+      }
+
+      #picture_section {
+        display: none;
       }
 
       #picture {

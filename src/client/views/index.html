@@ -3,7 +3,8 @@
     <head>
         <link rel="shortcut icon" href="#" />
         <meta charset="utf-8">
-        <title>NLP Text analysis</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Travel app</title>
         <link
       href="https://fonts.googleapis.com/css?family=Alata|Open Sans:300&display=swap"
       rel="stylesheet"
@@ -12,14 +13,14 @@
 
     <body>
 
-        <header>
+        <!-- <header>
             <div class="">
                 NLP text validation
             </div>
             <div class="">
                 main
             </div>
-        </header>
+        </header> -->
 
         <main>
             <section>
@@ -31,7 +32,7 @@
                 </form>
             <section>
 
-            <section>
+            <section id='results_section'>
                 <strong><h2>Weather:</h2></strong>
                 <div id="results" style="overflow-x:auto;">
                     <table>
@@ -46,8 +47,19 @@
                       </table> 
                 </div>
             </section>
-            <section>
+
+            <section id='picture_section'>
                 <div id='picture'></div>
+            </section>
+
+            <section id='trips'>
+                <strong><h2>Your recent trips:</h2></strong>
+                <div style="overflow-x:auto;">
+                    <table id='trips_table'>
+                        <tbody>
+                        </tbody>
+                      </table> 
+                </div>
             </section>
         </main>
 
