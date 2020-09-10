@@ -1,6 +1,6 @@
 /**
- * @description gets data from sentiment API
- * @param {string} inputText - a text to be checked by sentiment API
+ * @description gets data from geoname API
+ * @param {string} inputText - a given location
  */
 
 async function getGeoName(inputText) {
@@ -19,6 +19,13 @@ async function getGeoName(inputText) {
       },
     }));
 }
+
+/**
+ * @description gets data from weatherData API
+ * @param {string} apiType - "forecast/daily" or "current" depending of the data which should be fetched - prognosis or current weather
+ * @param {string} lat - lattitude
+ * @param {string} lon - longitude
+ */
 
 async function getWeatherData(apiType, lat, lon) {
   return fetch(
@@ -39,6 +46,11 @@ async function getWeatherData(apiType, lat, lon) {
       },
     }));
 }
+
+/**
+ * @description gets data from pixabay API
+ * @param {string} inputText - a given location
+ */
 
 async function getImage(inputText) {
   return fetch(`http://localhost:8081/pixabayImage?formText=${inputText}`, {

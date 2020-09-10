@@ -51,6 +51,11 @@ async function handleSubmit(event) {
   updateLastTrips(getLocalStorage());
 }
 
+/**
+ * @description gets a location string and returns it's longitude and lattitue as an object
+ * @param {string} location - location string
+ */
+
 async function getGeoData(location) {
   const sentimentResponse = await getGeoName(location);
 
@@ -64,6 +69,14 @@ async function getGeoData(location) {
   };
 }
 
+/**
+ * @description gets weather for a given date and langitute, longitude; returns an object with temperature and description
+ * @param {string} date  - date in format YYYY-MM-DD
+ * @param {date object} todaysDate  - today's Date() object
+ * @param {string} lat  - lattitude
+ * @param {string} lon  - longitude
+ */
+
 function getWeather(date, todaysDate, lat, lon) {
   let responseType = "forecast/daily";
 
@@ -73,6 +86,12 @@ function getWeather(date, todaysDate, lat, lon) {
 
   return getWeatherData(responseType, lat, lon);
 }
+
+/**
+ * @description processes weather response from the function getWeather; returns an object with temperature and description
+ * @param {json} data - weather API response
+ * @param {int} datesDiff - difference between given date and today
+ */
 
 function processWeatherData(data, datesDiff) {
   let weatherResponse = {};
@@ -90,6 +109,11 @@ function processWeatherData(data, datesDiff) {
   return { temperature: temperature, description: description };
 }
 
+/**
+ * @description processes the response from the pixabay image API and returns a link to the image
+ * @param {json} dataObject  - reponse from the image API
+ */
+
 function processImage(dataObject) {
   if (dataObject["hits"].length > 0) {
     dataObject = dataObject["hits"][0]["webformatURL"];
@@ -99,6 +123,11 @@ function processImage(dataObject) {
 
   return dataObject;
 }
+
+/**
+ * @description updates the UI with the weather data and a picture
+ * @param {object} dataObject - an object with keys 'weather' and 'picture'
+ */
 
 function updateUI(dataObject) {
   let temp = document.getElementById("temperature");
@@ -115,7 +144,7 @@ function updateUI(dataObject) {
 }
 
 /**
- * @description Sets the result table to default empty strings
+ * @description Sets the result table to default empty strings and blends out the picutre
  */
 
 function setDefaults() {
@@ -129,6 +158,11 @@ function setDefaults() {
   document.getElementById("temperature").innerHTML = "";
   document.getElementById("weather").innerHTML = "";
 }
+
+/**
+ * @description adds a location to the local storage
+ * @param {string} location - location from the text box
+ */
 
 function addToLocalStorage(location) {
   let values = [];
@@ -145,9 +179,18 @@ function addToLocalStorage(location) {
   }
 }
 
+/**
+ * @description gets the location values from the local storage
+ */
+
 function getLocalStorage() {
   return JSON.parse(localStorage.getItem("geoname"));
 }
+
+/**
+ * @description updates the last trips table in the UI with the given list of values
+ * @param {array of strings} list - array of locations
+ */
 
 function updateLastTrips(list) {
   let newRow = {};
