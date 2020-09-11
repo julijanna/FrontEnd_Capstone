@@ -114,7 +114,13 @@ function processWeatherData(data, datesDiff) {
  * @param {json} dataObject  - reponse from the image API
  */
 
-function processImage(dataObject) {
+function processImage(
+  dataObject = {
+    total: 0,
+    totalHits: 0,
+    hits: [],
+  }
+) {
   if (dataObject["hits"].length > 0) {
     dataObject = dataObject["hits"][0]["webformatURL"];
   } else {
@@ -205,6 +211,15 @@ function updateLastTrips(list) {
   }
 
   resultsTable.parentNode.replaceChild(newBody, resultsTable);
+
+  let tripsSection = document.getElementById("trips");
+  tripsSection.style.display = "block";
 }
 
-export { handleSubmit, updateLastTrips, getLocalStorage };
+export {
+  handleSubmit,
+  updateLastTrips,
+  getLocalStorage,
+  processImage,
+  getGeoData,
+};

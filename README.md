@@ -1,6 +1,6 @@
-# Evaluating NLP news
+# Weather app
 
-This project demonstrates and asynchronous API data fetch from an external NLP [MeaningCloud API](https://www.meaningcloud.com/developer/sentiment-analysis). User can paste any text he finds on the internet and the application will output if the text is objective, ironic and a confidence percentage.
+This project demonstrates and asynchronous API data fetch from external APIs (Geonames, Weatherbit, Pixabay). User can type a location he is going to and choose the date. He will see a photo and a weather forecast (or current weather) from this place. Also, most recent searches are saved in the local storage.
 
 ## Run
 
