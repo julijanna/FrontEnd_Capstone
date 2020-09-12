@@ -412,7 +412,7 @@ global.fetch = jest.fn(() =>
 );
 
 describe("getGeoData to get the lattitude and longitude given a search term", () => {
-  test("Testing the validateForm() function with a link, should return false", async () => {
+  test("Testing the function with a real response for 'Delhi', should pass", async () => {
     expect(await getGeoData("Delhi")).toEqual({
       lat: "28.65195",
       lon: "77.23149",

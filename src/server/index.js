@@ -13,10 +13,6 @@ app.use(express.json());
 
 console.log(__dirname);
 
-app.get("/test", function (req, res) {
-  res.send(mockAPIResponse);
-});
-
 app.get("/", function (req, res) {
   res.sendFile("dist/index.html");
 });
@@ -29,7 +25,7 @@ app.listen(8081, function () {
 app.get("/geoNames", getGeonamesResponse);
 
 function getGeonamesResponse(req, res) {
-  text = req.query.formText;
+  const text = req.query.formText;
   fetch(
     `http://api.geonames.org/searchJSON?name_equals=${text}&featureClass=P&maxRows=20&username=${process.env.GEONAMES_USERNAME}`
   )
@@ -82,3 +78,6 @@ function getImage(req, res) {
     .then((response) => response.json())
     .then((body) => res.send(body));
 }
+
+// export for testing
+module.exports = app;

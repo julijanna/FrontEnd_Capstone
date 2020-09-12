@@ -14,6 +14,7 @@ async function handleSubmit(event) {
   const todaysDate = new Date();
   const datesDiff = Math.ceil((dateInput - todaysDate) / (1000 * 3600 * 24));
   const coordinates = await getGeoData(formText);
+  const printButton = document.getElementById("print_button");
 
   if (coordinates == null) {
     setDefaults();
@@ -49,6 +50,7 @@ async function handleSubmit(event) {
   updateUI(responseObject);
   addToLocalStorage(formText);
   updateLastTrips(getLocalStorage());
+  printButton.addEventListener("click", () => window.print());
 }
 
 /**
@@ -141,12 +143,14 @@ function updateUI(dataObject) {
   let picture = document.getElementById("picture");
   let pictureSection = document.getElementById("picture_section");
   let resultSection = document.getElementById("results_section");
+  let printButton = document.getElementById("print_section");
 
   resultSection.style.display = "block";
   temp.innerText = dataObject["weather"]["temperature"];
   weather.innerText = dataObject["weather"]["description"];
   picture.style.backgroundImage = `url(${dataObject["image"]})`;
   pictureSection.style.display = "block";
+  printButton.style.display = "inline";
 }
 
 /**
@@ -157,12 +161,14 @@ function setDefaults() {
   let picture = document.getElementById("picture");
   let pictureSection = document.getElementById("picture_section");
   let resultSection = document.getElementById("results_section");
+  let printButton = document.getElementById("print_section");
 
   resultSection.style.display = "none";
   picture.style.backgroundImage = "";
   pictureSection.style.display = "none";
   document.getElementById("temperature").innerHTML = "";
   document.getElementById("weather").innerHTML = "";
+  printButton.style.display = "none";
 }
 
 /**
